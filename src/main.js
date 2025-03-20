@@ -50,4 +50,23 @@ document.addEventListener("DOMContentLoaded", () => {
       )
       .join("")
   }
+
+  function debounce(func, delay) {
+    let timeout
+    return (...args) => {
+      clearTimeout(timeout)
+      timeout = setTimeout(() => func(...args), delay)
+    }
+  }
+
+  function searchVideos() {
+    const searchText = searchInput.value.toLowerCase()
+    const filteredVideos = videos.filter((video) =>
+      video.title.toLowerCase().includes(searchText)
+    )
+    displayVideos(filteredVideos)
+  }
+
+  const debouncedSearch = debounce(searchVideos, 300)
+  searchInput.addEventListener("input", debouncedSearch)
 })
